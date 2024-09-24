@@ -1,1 +1,1 @@
-{"P1": {"labels": ["test"], "postTitle": "hello", "postUrl": "post/hello.html", "createdDate": "2024-09-13", "dateLabelColor": "#bc4c00"}, "labelColorDict": {"test": "#BE9527"}}
+{"P2": {"labels": ["Smart contract"], "postTitle": "payable\u3001view\u548c pure", "postUrl": "post/payable%E3%80%81view-he-%20pure.html", "createdDate": "2024-09-24", "dateLabelColor": "#bc4c00"}, "P1": {"labels": ["test"], "postTitle": "hello", "postUrl": "post/hello.html", "createdDate": "2024-09-13", "dateLabelColor": "#bc4c00"}, "labelColorDict": {"Smart contract": "#787642", "test": "#BE9527"}}
