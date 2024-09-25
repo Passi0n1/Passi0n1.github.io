@@ -16,4 +16,4 @@ contract PaymentContract {&#13;
 }&#13;
 ```&#13;
 &#13;
-`pure`  既不能读，也不能写，只适合用来标记哪些不会改变内容的函数。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/payable%E3%80%81view-he-%20pure.html</guid><pubDate>Tue, 24 Sep 2024 13:34:17 +0000</pubDate></item><item><title>hello</title><link>https://Passi0n1.github.io/post/hello.html</link><description>hello，world。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/hello.html</guid><pubDate>Fri, 13 Sep 2024 06:28:49 +0000</pubDate></item></channel></rss>
+`pure`  既不能读，也不能写，只适合用来标记哪些不会改变内容的函数。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/payable%E3%80%81view-he-%20pure.html</guid><pubDate>Tue, 24 Sep 2024 13:34:17 +0000</pubDate></item><item><title>hello</title><link>https://Passi0n1.github.io/post/hello.html</link><description>hello，world。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/hello.html</guid><pubDate>Fri, 13 Sep 2024 06:28:49 +0000</pubDate></item></channel><follow_challenge><feedId>61649528611678208</feedId><userId>61646731125452800</userId></follow_challenge></rss>
