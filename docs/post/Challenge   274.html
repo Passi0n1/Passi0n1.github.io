@@ -161,13 +161,14 @@ contract DoesWrite {
   而加上storage，则是成为指向实际slot的变量了。  这个时候再去操作foo，是无法进行修改的，只是操作storage的指向。
 
     所以如果调用函数moveToSlot0的话，返回的是myArray中的第一个结构体，即bar = 1 。
-
-    另外，如果foo的复制不是从myArray复制，而是从新的memory中进行复制，那么就会在slot中开辟空间存储数据。比如：
-        Foo memory temp;
-        temp.bar = 1;
-        Foo storage foo = temp;
-        如果是从已经有的storage中赋值，那么就是变量的指向。
-</code></pre></div>
+</code></pre>
+<p><strong>问：为什么这里已经指向了myArray[0]，还是在后续的操作foo的时候，却不能修改myArray[0]的内容</strong></p>
+<p>这需要考虑到赋值前后的变量类型、是否全局变量、赋值方式：<br>
+1、如果是针对于数据元素的显示赋值，那就是直接操作myArray[0]的数据了<br>
+2、如果是都是全局storage ，那就是数据复制，也可以修改myArray[0]的数据<br>
+3、如果是memory到storage，那也是数据复制，也可以修改myArray[0]的数据。</p>
+<p>这些操作都是为了尽可能的节省资源和安全防护。<br>
+PS：记起来真的很繁琐啊。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
