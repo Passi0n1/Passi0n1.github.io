@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark_colorblind" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekBSZ.js'></script> <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekVercount.js'></script> <meta name='google-site-verification' content='1VMjcA03zLI8aKEYQ3WOXgkTtOBe--5NNn6YKpeAxzQ' /> <script async src='https://www.googletagmanager.com/gtag/js?id=G-ESWXK6HG1Q'></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-ESWXK6HG1Q');</script>
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/181446367?v=4"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="
+## **Web Workers 和 Service Workers：概念、作用与发展历程**
+
+### **1. Web Workers 的定义与作用**
+
+**Web Workers** 是浏览器提供的一种 JavaScript 多线程功能，旨在帮助开发者将计算密集型任务移出主线程，从而提升页面的响应速度和用户体验。">
+<meta property="og:title" content="Web Workers 和 Service Workers以及前端开发">
+<meta property="og:description" content="
+## **Web Workers 和 Service Workers：概念、作用与发展历程**
+
+### **1. Web Workers 的定义与作用**
+
+**Web Workers** 是浏览器提供的一种 JavaScript 多线程功能，旨在帮助开发者将计算密集型任务移出主线程，从而提升页面的响应速度和用户体验。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://Passi0n1.github.io/post/Web%20Workers%20-he-%20Service%20Workers-yi-ji-qian-duan-kai-fa.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/181446367?v=4">
+<title>Web Workers 和 Service Workers以及前端开发</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">Web Workers 和 Service Workers以及前端开发</h1>
+<div class="title-right">
+    <a href="https://Passi0n1.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/Passi0n1/Passi0n1.github.io/issues/11" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h2><strong>Web Workers 和 Service Workers：概念、作用与发展历程</strong></h2>
+<h3><strong>1. Web Workers 的定义与作用</strong></h3>
+<p><strong>Web Workers</strong> 是浏览器提供的一种 JavaScript 多线程功能，旨在帮助开发者将计算密集型任务移出主线程，从而提升页面的响应速度和用户体验。Web Workers 允许开发者在一个独立的线程中执行代码，这个线程与主线程（即 UI 渲染线程）是隔离的。</p>
+<ul>
+<li>
+<p><strong>用途：</strong></p>
+<ul>
+<li>主要用于前端计算任务，比如复杂的数学计算、数据处理等。</li>
+<li>Web Workers 可以通过消息传递机制与主线程进行通信，但不直接操作 DOM 或者 UI 元素，这意味着它们主要负责后台计算和逻辑处理。</li>
+</ul>
+</li>
+<li>
+<p><strong>解决的问题：</strong></p>
+<ul>
+<li>在传统的单线程模型中，浏览器主线程需要同时处理用户界面、响应事件以及执行 JavaScript 代码。计算密集型的任务会阻塞主线程，导致页面卡顿。Web Workers 通过将这些任务分离到单独的线程中，避免了 UI 渲染的阻塞问题。</li>
+</ul>
+</li>
+<li>
+<p><strong>发展历程：</strong></p>
+<ul>
+<li><strong>初期发展：</strong> Web Workers 在 HTML5 中首次提出并开始支持，最早的实现是在 Chrome 和 Firefox 浏览器中。</li>
+<li><strong>逐渐成熟：</strong> 随着 JavaScript 性能的提升，Web Workers 成为实现多线程 JavaScript 编程的标准方式，并且得到了广泛支持。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3><strong>2. Service Workers 的定义与作用</strong></h3>
+<p><strong>Service Workers</strong> 是 Web 应用中的一种新的 JavaScript 线程，专门处理离线缓存、推送通知和背景同步等任务。它的设计目标是帮助开发者创建可以脱离网络环境正常工作的 Web 应用。</p>
+<ul>
+<li>
+<p><strong>用途：</strong></p>
+<ul>
+<li>主要用于离线功能、缓存管理和消息推送等。</li>
+<li>Service Workers 通过拦截网络请求并缓存响应数据，实现离线访问和更快的资源加载。</li>
+</ul>
+</li>
+<li>
+<p><strong>解决的问题：</strong></p>
+<ul>
+<li>现代 Web 应用通常依赖网络来获取资源，而网络环境可能不稳定或不可用。Service Workers 通过缓存资源，允许用户在离线时继续使用 Web 应用，改善用户体验。</li>
+<li>Service Workers 还支持后台任务，比如同步数据或接收推送通知，进一步提升了 Web 应用的功能和性能。</li>
+</ul>
+</li>
+<li>
+<p><strong>发展历程：</strong></p>
+<ul>
+<li><strong>初期发展：</strong> Service Workers 最初在 Google Chrome 浏览器中推出，后续逐渐得到 Firefox 和 Safari 等浏览器的支持。</li>
+<li><strong>标准化过程：</strong> Service Workers 作为一种重要的技术，已经成为 Progressive Web Apps（PWA）的核心组成部分。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3><strong>3. Web Workers 与 Service Workers 的区别</strong></h3>
+<p>尽管 Web Workers 和 Service Workers 都是用于多线程的技术，但它们的应用场景、功能和设计目的各有不同：</p>
+<ul>
+<li>
+<p><strong>Web Workers：</strong></p>
+<ul>
+<li>用于处理复杂的计算任务，帮助提升页面的性能和响应速度。</li>
+<li>不能直接操作 DOM 元素，但可以通过消息机制与主线程交互。</li>
+<li>适合用于计算密集型任务，如加密、解密、大规模数据处理等。</li>
+</ul>
+</li>
+<li>
+<p><strong>Service Workers：</strong></p>
+<ul>
+<li>主要用于网络通信、缓存管理、离线功能和后台任务。</li>
+<li>可以拦截网络请求，缓存资源，并在用户离线时提供访问。</li>
+<li>适合用于构建离线优先的应用，并支持推送通知、后台同步等功能。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3><strong>4. 浏览器线程模型：主线程、Web Workers 和 Service Workers</strong></h3>
+<p>在浏览器中，JavaScript 的执行依赖于多个线程，主要有三个线程：</p>
+<ul>
+<li>
+<p><strong>主线程（UI 线程）：</strong><br>
+用于页面的渲染、用户交互和执行 JavaScript 代码。所有的 DOM 操作都必须在主线程上完成。</p>
+</li>
+<li>
+<p><strong>Web Workers 线程：</strong><br>
+用于执行后台计算任务。Web Workers 允许将数据处理从主线程中分离，从而避免页面在计算任务执行时变得卡顿。</p>
+</li>
+<li>
+<p><strong>Service Workers 线程：</strong><br>
+专门处理与网络相关的任务，比如缓存管理、请求拦截等。Service Workers 使得 Web 应用能够在离线状态下工作，并且能够处理后台的推送通知。</p>
+</li>
+</ul>
+<hr>
+<h3><strong>postMessage</strong></h3>
+<h4><strong>1. postMessage 的作用和传递的数据</strong></h4>
+<p><code class="notranslate">postMessage</code> 是浏览器中用于线程间或跨窗口通信的一种机制，主要用于在以下场景中传递数据：</p>
+<ul>
+<li>主线程与 Web Worker 或 Service Worker 之间的通信。</li>
+<li>不同窗口或 iframe 间的通信（跨域情况下尤为重要）。</li>
+</ul>
+<p><strong>传递数据：</strong></p>
+<ul>
+<li><code class="notranslate">postMessage</code> 可以传递以下数据类型：
+<ul>
+<li><strong>字符串</strong>、<strong>对象</strong>（通过结构化克隆算法处理）。</li>
+<li>复杂数据（如二进制 <code class="notranslate">ArrayBuffer</code>、<code class="notranslate">Blob</code> 等）。</li>
+</ul>
+</li>
+</ul>
+<p>示例代码：<br>
+主线程发送消息给 Web Worker：</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">const</span> <span class="pl-s1">worker</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-v">Worker</span><span class="pl-kos">(</span><span class="pl-s">'worker.js'</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-c">// 向 Web Worker 发送数据</span>
+<span class="pl-s1">worker</span><span class="pl-kos">.</span><span class="pl-en">postMessage</span><span class="pl-kos">(</span><span class="pl-kos">{</span> <span class="pl-c1">command</span>: <span class="pl-s">'encrypt'</span><span class="pl-kos">,</span> <span class="pl-c1">data</span>: <span class="pl-s">'Hello World!'</span> <span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-c">// 接收 Web Worker 的响应</span>
+<span class="pl-s1">worker</span><span class="pl-kos">.</span><span class="pl-en">onmessage</span> <span class="pl-c1">=</span> <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-s1">event</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+  <span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">'Worker Response:'</span><span class="pl-kos">,</span> <span class="pl-s1">event</span><span class="pl-kos">.</span><span class="pl-c1">data</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span><span class="pl-kos">;</span></pre></div>
+<p>Web Worker 接收和响应：</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-s1">self</span><span class="pl-kos">.</span><span class="pl-en">onmessage</span> <span class="pl-c1">=</span> <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-s1">event</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+  <span class="pl-k">const</span> <span class="pl-kos">{</span> command<span class="pl-kos">,</span> data <span class="pl-kos">}</span> <span class="pl-c1">=</span> <span class="pl-s1">event</span><span class="pl-kos">.</span><span class="pl-c1">data</span><span class="pl-kos">;</span>
+  <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">command</span> <span class="pl-c1">===</span> <span class="pl-s">'encrypt'</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+    <span class="pl-c">// 模拟数据加密</span>
+    <span class="pl-k">const</span> <span class="pl-s1">encryptedData</span> <span class="pl-c1">=</span> <span class="pl-en">btoa</span><span class="pl-kos">(</span><span class="pl-s1">data</span><span class="pl-kos">)</span><span class="pl-kos">;</span> <span class="pl-c">// Base64 加密</span>
+    <span class="pl-s1">self</span><span class="pl-kos">.</span><span class="pl-en">postMessage</span><span class="pl-kos">(</span><span class="pl-s1">encryptedData</span><span class="pl-kos">)</span><span class="pl-kos">;</span> <span class="pl-c">// 返回加密结果</span>
+  <span class="pl-kos">}</span>
+<span class="pl-kos">}</span><span class="pl-kos">;</span></pre></div>
+<hr>
+<h4><strong>2. 为什么需要 postMessage？</strong></h4>
+<p>浏览器中的线程是相互隔离的，主线程无法直接访问 Web Worker 或 Service Worker 的上下文（例如其变量和执行状态）。<code class="notranslate">postMessage</code> 提供了一种安全、高效的机制，使不同上下文之间可以交换数据，而无需直接共享内存。</p>
+<p><strong>具体好处：</strong></p>
+<ul>
+<li><strong>避免阻塞：</strong> 主线程和 Worker 可以并行工作。</li>
+<li><strong>跨域通信：</strong> 在安全环境下允许不同域之间的数据交互。</li>
+<li><strong>线程隔离：</strong> 数据交换通过消息传递，不需要共享复杂的状态。</li>
+</ul>
+<hr>
+<h4><strong>3. postMessage 的发展历程</strong></h4>
+<ul>
+<li>
+<p><strong>早期：</strong><br>
+在浏览器支持多线程（Web Worker）之前，JavaScript 只能单线程执行。复杂任务会阻塞 UI 渲染，用户体验较差。</p>
+</li>
+<li>
+<p><strong>2009 年：</strong><br>
+Web Worker API 引入，<code class="notranslate">postMessage</code> 成为主线程与 Worker 通信的核心方法。</p>
+</li>
+<li>
+<p><strong>跨域通信：</strong><br>
+浏览器添加了 <code class="notranslate">window.postMessage</code>，支持不同窗口间的跨域通信，解决了 iframe 和父窗口间数据交换的限制。</p>
+</li>
+<li>
+<p><strong>现代化：</strong><br>
+随着 Service Worker 的出现，<code class="notranslate">postMessage</code> 进一步扩展到缓存控制、后台同步等领域。</p>
+</li>
+</ul>
+<hr>
+<h4><strong>总结</strong></h4>
+<ol>
+<li><strong>postMessage 的功能：</strong> 用于不同上下文（线程、窗口、域）之间的数据交换，传递的可以是字符串、对象或二进制数据。</li>
+<li><strong>必要性：</strong> 解决了线程隔离、跨域限制等问题，保证了数据交换的安全性和效率。</li>
+<li><strong>发展历程：</strong> 从单线程到多线程，从简单数据交换到现代化 Web 应用的核心通信机制，<code class="notranslate">postMessage</code> 扮演了重要角色。</li>
+</ol>
+<hr>
+<h3><strong>Service Worker 的职责</strong></h3>
+<h4><strong>1. Service Worker 的核心职责确实不是“发送信息”，而是处理网络请求和响应</strong></h4>
+<p>Service Worker 的主要任务是：</p>
+<ul>
+<li><strong>拦截网络请求：</strong> 代理网络请求的发起与响应，决定是否使用缓存还是发起新的请求。</li>
+<li><strong>缓存管理：</strong> 缓存静态资源或 HTTP 响应，支持离线访问和提高加载速度。</li>
+<li><strong>消息传递：</strong> 通过 <code class="notranslate">postMessage</code> 在主线程与 Service Worker 之间通信，辅助完成任务。</li>
+</ul>
+<p>可以使用一个恰当的类比，<strong>Service Worker 是快递站的卸货工人</strong>，确实形象地反映了它主要处理的是从网络层“卸载”下来的资源（如 HTTP 响应）并缓存或分发，而非主动“驾驶快递车”（即直接控制网络层的传输）。</p>
+<h4><strong>2. Service Worker 并不“直接发送”网络请求</strong></h4>
+<p>网络请求的发送是由浏览器内核的网络栈负责（即“快递车”部分）。Service Worker 的职责是在请求和响应的生命周期中进行干预，比如：</p>
+<ul>
+<li><strong>拦截请求：</strong> 修改、阻止或重定向请求。</li>
+<li><strong>缓存响应：</strong> 存储资源以备离线或重复访问时使用。</li>
+</ul>
+<hr>
+<h3><strong>补充和修正：需要注意的一些边界</strong></h3>
+<h4><strong>1. Service Worker 也可以“代理发送”请求</strong></h4>
+<p>虽然它不能直接发送网络请求，但可以通过 <code class="notranslate">fetch</code> 方法发起或修改请求。比如，当主线程需要资源时，Service Worker 可以决定：</p>
+<ul>
+<li>从缓存中提供资源。</li>
+<li>发起新的网络请求并将结果返回给主线程。</li>
+</ul>
+<h4><strong>2. Service Worker 不仅是“卸货工人”</strong></h4>
+<p>在某些场景中，Service Worker 类似“调度员”或“分拣员”：</p>
+<ul>
+<li>它需要根据缓存策略决定资源是从缓存中获取还是从网络中请求。</li>
+<li>它可能在返回数据前对内容进行处理，例如压缩或解密。</li>
+</ul>
+<hr>
+<h3><strong>总结</strong></h3>
+<ul>
+<li><strong>Service Worker 更像是快递站的“卸货工人 + 分拣调度员”。</strong> 它负责接收网络层传来的资源（卸货）、判断如何分配资源（分拣）以及将资源送达合适的地方（比如缓存或主线程）。</li>
+<li>它并不是网络请求的实际“发起者”（即快递车的司机），但可以代理网络请求，决定如何使用响应。</li>
+</ul></div>
+<div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://Passi0n1.github.io">Passi0n1's Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("07/24/2024"!=""){
+    var startSite=new Date("07/24/2024");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Passi0n1/Passi0n1.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/articletoc.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>
+
+</html>
