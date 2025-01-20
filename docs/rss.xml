@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Passi0n1's Blog</title><link>https://Passi0n1.github.io</link><description>世界是我们的游乐场</description><copyright>Passi0n1's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/181446367?v=4</url><title>avatar</title><link>https://Passi0n1.github.io</link></image><lastBuildDate>Mon, 13 Jan 2025 09:14:34 +0000</lastBuildDate><managingEditor>Passi0n1's Blog</managingEditor><ttl>60</ttl><webMaster>Passi0n1's Blog</webMaster><item><title>Web Workers 和 Service Workers以及前端开发</title><link>https://Passi0n1.github.io/post/Web%20Workers%20-he-%20Service%20Workers-yi-ji-qian-duan-kai-fa.html</link><description>&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Passi0n1's Blog</title><link>https://Passi0n1.github.io</link><description>世界是我们的游乐场</description><copyright>Passi0n1's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/181446367?v=4</url><title>avatar</title><link>https://Passi0n1.github.io</link></image><lastBuildDate>Mon, 20 Jan 2025 03:33:30 +0000</lastBuildDate><managingEditor>Passi0n1's Blog</managingEditor><ttl>60</ttl><webMaster>Passi0n1's Blog</webMaster><item><title>从 Jito 到 Roll-up</title><link>https://Passi0n1.github.io/post/cong-%20Jito%20-dao-%20Roll-up.html</link><description>
+# **从 Jito 到 Roll-up**
+
+## **引言**
+
+在区块链技术的持续发展过程中，不同的协议和机制不断涌现，以应对网络扩展性、性能、成本等方面的挑战。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/cong-%20Jito%20-dao-%20Roll-up.html</guid><pubDate>Mon, 20 Jan 2025 03:33:03 +0000</pubDate></item><item><title>Web Workers 和 Service Workers以及前端开发</title><link>https://Passi0n1.github.io/post/Web%20Workers%20-he-%20Service%20Workers-yi-ji-qian-duan-kai-fa.html</link><description>&#13;
 ## **Web Workers 和 Service Workers：概念、作用与发展历程**&#13;
 &#13;
 ### **1. Web Workers 的定义与作用**&#13;
