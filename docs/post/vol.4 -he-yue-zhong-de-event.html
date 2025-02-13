@@ -10,16 +10,16 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="## 1. 存储位置（Storage, Memory, Calldata）
-	•	storage：链上的持久化存储，数据是永久保存的。">
-<meta property="og:title" content="solidity中的引用和复制">
-<meta property="og:description" content="## 1. 存储位置（Storage, Memory, Calldata）
-	•	storage：链上的持久化存储，数据是永久保存的。">
+<meta name="description" content="**事件**
+enevt 是个被定义的事件，主要的功能的对外展示和记录作用，并不是真正的代码的执行。">
+<meta property="og:title" content="vol.4 合约中的event">
+<meta property="og:description" content="**事件**
+enevt 是个被定义的事件，主要的功能的对外展示和记录作用，并不是真正的代码的执行。">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://Passi0n1.github.io/post/solidity-zhong-de-yin-yong-he-fu-zhi.html">
+<meta property="og:url" content="https://Passi0n1.github.io/post/vol.4%20-he-yue-zhong-de-event.html">
 <meta property="og:image" content="https://avatars.githubusercontent.com/u/181446367?v=4">
-<title>solidity中的引用和复制</title>
-
+<title>vol.4 合约中的event</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -61,7 +61,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">solidity中的引用和复制</h1>
+<h1 class="postTitle">vol.4 合约中的event</h1>
 <div class="title-right">
     <a href="https://Passi0n1.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -69,7 +69,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/Passi0n1/Passi0n1.github.io/issues/9" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Passi0n1/Passi0n1.github.io/issues/5" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -85,68 +85,108 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h2>1. 存储位置（Storage, Memory, Calldata）</h2>
-<pre class="notranslate"><code class="notranslate">•	storage：链上的持久化存储，数据是永久保存的。
-•	memory：临时存储，用于函数调用期间，数据不会持久化。
-•	calldata：函数外部调用时的只读数据，通常用于 external 函数中的参数。
-</code></pre>
-<h2>2. 赋值和引用规则</h2>
-<h3>情况 1：Storage 赋值给 Storage</h3>
-<p>当你将一个 storage 变量赋值给另一个 storage 变量时，是引用赋值：</p>
-<pre class="notranslate"><code class="notranslate">Foo storage foo1 = myArray[0]; // foo1 引用 myArray[0]
-Foo storage foo2 = foo1;       // foo2 和 foo1 都引用 myArray[0]
-foo2.bar = 42;                 // 修改 foo2 会影响 myArray[0] 的数据
+<div class="markdown-body" id="postBody"><p><strong>事件</strong><br>
+enevt 是个被定义的事件，主要的功能的对外展示和记录作用，并不是真正的代码的执行。</p>
+<p>一个完整的案例：<a href="https://blog.csdn.net/watson2017/article/details/123423834" rel="nofollow">https://blog.csdn.net/watson2017/article/details/123423834</a></p>
+<div class="highlight highlight-source-solidity"><pre class="notranslate"><span class="pl-k">pragma solidity</span> <span class="pl-k">&gt;=</span><span class="pl-c1">0.6.0</span> <span class="pl-k">&lt;</span><span class="pl-c1">0.9.0</span>;
 
-</code></pre>
-<p>总结：<br>
-•	storage 到 storage 是引用赋值。<br>
-•	两个变量会指向同一个存储位置，修改其中一个会影响另一个。</p>
-<h3>情况 2：Memory 赋值给 Memory</h3>
-<p>当将 memory 变量赋值给另一个 memory 变量时，是值的复制：</p>
-<pre class="notranslate"><code class="notranslate">Foo memory foo1 = Foo({bar: 1});
-Foo memory foo2 = foo1;    // 复制 foo1 的数据给 foo2
-foo2.bar = 42;            // 修改 foo2 不影响 foo1
-</code></pre>
-<p>总结：<br>
-•	memory 到 memory 是数据的复制。<br>
-•	两个变量是独立的，修改一个不会影响另一个。</p>
-<h3>情况 3：Storage 赋值给 Memory</h3>
-<p>当将 storage 数据赋值给 memory 变量时，是数据的复制：</p>
-<pre class="notranslate"><code class="notranslate">Foo storage foo1 = myArray[0];
-Foo memory foo2 = foo1;   // 复制 foo1 的数据到 foo2
-foo2.bar = 42;           // 修改 foo2 不影响 myArray[0]
-</code></pre>
-<p>总结：<br>
-•	storage 到 memory 是值的复制。<br>
-•	修改 memory 变量不会影响 storage 中的数据。</p>
-<h3>情况 4：Memory 赋值给 Storage</h3>
-<p>将 memory 数据赋值给 storage 时，是数据的复制：</p>
-<pre class="notranslate"><code class="notranslate">
-Foo memory foo1 = Foo({bar: 1});
-myArray[0] = foo1;   // 复制 foo1 的数据到 myArray[0]
-foo1.bar = 42;       // 修改 foo1 不影响 myArray[0]
-</code></pre>
-<p>总结：<br>
-•	memory 到 storage 是数据的复制。<br>
-•	修改 memory 变量不会影响 storage 中的数据。</p>
-<h3>情况 5：Calldata 赋值给 Memory 或 Storage</h3>
-<pre class="notranslate"><code class="notranslate">•	Calldata 到 Memory：数据复制。
-•	Calldata 到 Storage：数据复制。
-</code></pre>
-<p>例如：</p>
-<pre class="notranslate"><code class="notranslate">function setFoo(Foo calldata fooInput) external {
-    Foo memory fooTemp = fooInput;  // 数据复制
-    myArray[0] = fooInput;          // 数据复制到 storage
-}
+<span class="pl-k">contract</span> <span class="pl-en">Demo</span> {
+  <span class="pl-c1">uint256</span> demoIndex <span class="pl-k">=</span> <span class="pl-c1">0</span>;
+  <span class="pl-k">event <span class="pl-en">DemoIndexInc</span></span>(<span class="pl-c1">uint256</span> <span class="pl-k">indexed</span> <span class="pl-v">index</span>);
+  #这里定义一下时候触发事件时对外展示的信息。
+  #顺便补充一下这里的indexed和tx中的log是息息相关的。后续会详细说明的
 
-</code></pre>
-<h2>3. 总结图表</h2>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/67869a45-baa5-4861-b791-1cb7c49b6ced"><img width="721" alt="image" src="https://github.com/user-attachments/assets/67869a45-baa5-4861-b791-1cb7c49b6ced" style="max-width: 100%;"></a></p>
-<h2>总结</h2>
-<pre class="notranslate"><code class="notranslate">•	storage 到 storage 是引用赋值。
-•	其他情况下（memory、calldata、storage 之间）都是 数据的复制。
-</code></pre>
-<p>当然，还要考虑局部变量和全局变量，以及显性赋值情况。</p></div>
+  <span class="pl-k">function<span class="pl-en"> getDemoIndex</span></span>() <span class="pl-k">public</span> <span class="pl-k">view</span> <span class="pl-k">returns</span> (<span class="pl-c1">uint256</span>) {
+    <span class="pl-k">return</span> demoIndex;
+  }
+
+  <span class="pl-k">function<span class="pl-en"> incDemoIndex</span></span>() <span class="pl-k">public</span> {
+    demoIndex <span class="pl-k">=</span> demoIndex<span class="pl-c1">+1</span>;
+    <span class="pl-k">emit</span> <span class="pl-en">DemoIndexInc</span>(demoIndex);
+  }
+}</pre></div>
+<p>而emit就是一个类似于断点一样的东西，或者说是触发点。每当运行到emit的时候就会按照event当中定义的一样把数据整理记录好。<br>
+从这角度来看，emit就像是一个类似于接口一样的东西，在emit有了定义之后，tx中的log就按照这个event中的数据来展现，而监听的时候也是从这里获取数据的。</p>
+<h2>topic、indexed、与log</h2>
+<p>学习的原文：<a href="https://www.wtf.academy/solidity-start/Event/" rel="nofollow">https://www.wtf.academy/solidity-start/Event/</a></p>
+<p>注意，要跟有event的交互才会有log。。。。。。。</p>
+<p>topic中最多三个indexed。<br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/394bc6b1-061b-4158-a481-d323b6824bed"><img width="1175" alt="image" src="https://github.com/user-attachments/assets/394bc6b1-061b-4158-a481-d323b6824bed" style="max-width: 100%;"></a><br>
+另外emit也可以这样用</p>
+<div class="highlight highlight-source-solidity"><pre class="notranslate"><span class="pl-k">contract</span> <span class="pl-en">Yeye</span> {
+  <span class="pl-k">event <span class="pl-en">Log</span></span>(<span class="pl-c1">string</span> <span class="pl-v">msg</span>);
+
+  <span class="pl-c">// 定义3个function: hip(), pop(), man()，Log值为Yeye。</span>
+  <span class="pl-k">function<span class="pl-en"> hip</span></span>() <span class="pl-k">public</span> <span class="pl-k">virtual</span>{
+    <span class="pl-k">emit</span> <span class="pl-en">Log</span>(<span class="pl-s">"<span class="pl-s">Yeye</span>"</span>);
+  }
+
+  <span class="pl-k">function<span class="pl-en"> pop</span></span>() <span class="pl-k">public</span> <span class="pl-k">virtual</span>{
+    <span class="pl-k">emit</span> <span class="pl-en">Log</span>(<span class="pl-s">"<span class="pl-s">Yeye</span>"</span>);
+  }
+
+  <span class="pl-k">function<span class="pl-en"> yeye</span></span>() <span class="pl-k">public</span> <span class="pl-k">virtual</span> {
+    <span class="pl-k">emit</span> <span class="pl-en">Log</span>(<span class="pl-s">"<span class="pl-s">Yeye</span>"</span>);
+  }
+}</pre></div>
+<h2>enevt  emit  监听</h2>
+<p>用来处理的监听逻辑如下：</p>
+<div class="highlight highlight-text-html-basic"><pre class="notranslate"><span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">./dist/web3.min.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">type</span>="<span class="pl-s">text/javascript</span>"<span class="pl-kos">&gt;</span>
+  const addEventWatchTx = async () =&gt; {
+    var web3 = new Web3(ethereum)
+    var metaTxContract = new web3.eth.Contract(MetaTxABI, contractAddr)
+    metaTxContract.events.DemoIndexInc({
+      filter:{},
+      fromBlock: 'latest'
+    }, function(error, event){})
+      .on('data', function(event){
+        console.log(event); // same results as the optional callback above
+      })
+      .on('changed', function(event){
+        console.log('emove event from local database');
+      })        
+      .on('error', console.error);
+  }</pre></div>
+<p>其他的监听案例：<a href="https://blog.csdn.net/qq_37928038/article/details/130200781" rel="nofollow">https://blog.csdn.net/qq_37928038/article/details/130200781</a></p>
+<h2>为什么solidity中要存在 event 和 emit？</h2>
+<p>event 和 emit 是区块链链接外部世界的渠道。<br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/80e44148-c996-488f-aa34-a9525bd4eab1"><img width="698" alt="image" src="https://github.com/user-attachments/assets/80e44148-c996-488f-aa34-a9525bd4eab1" style="max-width: 100%;"></a></p>
+<h2>在 solidity 中 event 当中的indexed 如何方便检索的</h2>
+<p>event 机制更像是一种主动的推送，自我分类机制。在合约执行的时候由于一些原因，触发了这个机制然后主动的在众多交易当中脱颖而出，这个时候就方便前端进行监控发布相关信息，或者方便开发者通过脚本遍历众多庞大的交易筛选出来自己想要的事件。</p>
+<p>而 indexed 的存在，让相关的参数更为明显，可以作为筛选的条件被使用。</p>
+<p>比如下面的这个例子：</p>
+<div class="highlight highlight-source-solidity"><pre class="notranslate"><span class="pl-c">// SPDX-License-Identifier: MIT</span>
+<span class="pl-k">pragma solidity</span> <span class="pl-k">^</span><span class="pl-c1">0.8.0</span>;
+
+<span class="pl-k">contract</span> <span class="pl-en">DepositContract</span> {
+    <span class="pl-k">event <span class="pl-en">Deposit</span></span>(<span class="pl-c1">address</span> <span class="pl-k">indexed</span> <span class="pl-v">user</span>, <span class="pl-c1">uint256</span> <span class="pl-v">amount</span>);
+
+    <span class="pl-k">function<span class="pl-en"> deposit</span></span>(<span class="pl-c1">uint256</span> <span class="pl-v">amount</span>) <span class="pl-k">public</span> <span class="pl-k">payable</span> {
+        <span class="pl-c">// 存款逻辑...</span>
+        <span class="pl-k">emit</span> <span class="pl-en">Deposit</span>(<span class="pl-c1">msg</span>.<span class="pl-c1">sender</span>, amount);
+    }
+}</pre></div>
+<p>这里定义了一个存款的事件</p>
+<p>然后前端就可以通过 <code class="notranslate">Deposit</code> 进行监控，把相应的信息利用起来。</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-k">const</span> <span class="pl-kos">{</span> ethers <span class="pl-kos">}</span> <span class="pl-c1">=</span> <span class="pl-en">require</span><span class="pl-kos">(</span><span class="pl-s">"ethers"</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-c">// 连接到以太坊节点</span>
+<span class="pl-k">const</span> <span class="pl-s1">provider</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-s1">ethers</span><span class="pl-kos">.</span><span class="pl-c1">providers</span><span class="pl-kos">.</span><span class="pl-c1">JsonRpcProvider</span><span class="pl-kos">(</span><span class="pl-s">"YOUR_RPC_URL"</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-c">// 合约地址和ABI</span>
+<span class="pl-k">const</span> <span class="pl-s1">contractAddress</span> <span class="pl-c1">=</span> <span class="pl-s">"YOUR_CONTRACT_ADDRESS"</span><span class="pl-kos">;</span>
+<span class="pl-k">const</span> <span class="pl-s1">contractABI</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span><span class="pl-c">/* ... */</span><span class="pl-kos">]</span><span class="pl-kos">;</span> <span class="pl-c">// 你的合约ABI</span>
+
+<span class="pl-c">// 创建合约实例</span>
+<span class="pl-k">const</span> <span class="pl-s1">contract</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-s1">ethers</span><span class="pl-kos">.</span><span class="pl-c1">Contract</span><span class="pl-kos">(</span><span class="pl-s1">contractAddress</span><span class="pl-kos">,</span> <span class="pl-s1">contractABI</span><span class="pl-kos">,</span> <span class="pl-s1">provider</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+<span class="pl-c">// 监听Deposit事件</span>
+<span class="pl-s1">contract</span><span class="pl-kos">.</span><span class="pl-en">on</span><span class="pl-kos">(</span><span class="pl-s">"Deposit"</span><span class="pl-kos">,</span> <span class="pl-kos">(</span><span class="pl-s1">user</span><span class="pl-kos">,</span> <span class="pl-s1">amount</span><span class="pl-kos">)</span> <span class="pl-c1">=&gt;</span> <span class="pl-kos">{</span>
+    <span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">`User <span class="pl-s1"><span class="pl-kos">${</span><span class="pl-s1">user</span><span class="pl-kos">}</span></span> deposited <span class="pl-s1"><span class="pl-kos">${</span><span class="pl-s1">amount</span><span class="pl-kos">}</span></span> wei.`</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+</pre></div>
+<p>测试链怎么去进行监听之类的呢？</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

@@ -10,28 +10,70 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="解构式指的是将多维、多个的参数位同时批量（当然，也可以人为筛选掉一些参数不去进行复制）
+<meta name="description" content="> 这个攻击方法很早就看到了，但是之前没时间去看具体的方式和原理，所以一直搁置了，刚好周末有空记录一下
+
+## 导致漏洞的原因
+
+Algorithm confusion vulnerabilities typically arise due to flawed implementation of JWT libraries. Although the actual verification process differs depending on the algorithm used, many libraries provide a single, algorithm-agnostic method for verifying signatures. These methods rely on the alg parameter in the token's header to determine the type of verification they should perform.
+
+漏洞的原因有两处，这两处需要同时存在才可以实现这个攻击:
+1、代码本身可以支持 HS 256 和 RS256 两种加解密的方法
+2、代码默认将验证 JWT的公钥写死为 RS256 的公钥 
+
+
 ```
-uint256 _number;
-bool _bool;
-uint256[3] memory _array;
-(_number, _bool, _array) = returnNamed();
+function verify(token, secretOrPublicKey){
+    algorithm = token.getAlgHeader();
+    if(algorithm == 'RS256'){
+        // Use the provided key as an RSA public key
+    } else if (algorithm == 'HS256'){
+        // Use the provided key as an HMAC secret key
+    }
+}
 ```
-在这个案例当中，先声明变量，然后将 `returnNamed` 运行的结果反馈赋值到这三个参数上面。">
-<meta property="og:title" content="解构式赋值">
-<meta property="og:description" content="解构式指的是将多维、多个的参数位同时批量（当然，也可以人为筛选掉一些参数不去进行复制）
+
 ```
-uint256 _number;
-bool _bool;
-uint256[3] memory _array;
-(_number, _bool, _array) = returnNamed();
+publicKey = <public-key-of-server>;
+token = request.getCookie('session');
+verify(token, publicKey);
 ```
-在这个案例当中，先声明变量，然后将 `returnNamed` 运行的结果反馈赋值到这三个参数上面。">
+
+这样一来黑客可以将 rs 256 公钥作为 hs256 加密的 secret  key 用来加密签名。">
+<meta property="og:title" content="vol.7 JWT 算法混淆攻击">
+<meta property="og:description" content="> 这个攻击方法很早就看到了，但是之前没时间去看具体的方式和原理，所以一直搁置了，刚好周末有空记录一下
+
+## 导致漏洞的原因
+
+Algorithm confusion vulnerabilities typically arise due to flawed implementation of JWT libraries. Although the actual verification process differs depending on the algorithm used, many libraries provide a single, algorithm-agnostic method for verifying signatures. These methods rely on the alg parameter in the token's header to determine the type of verification they should perform.
+
+漏洞的原因有两处，这两处需要同时存在才可以实现这个攻击:
+1、代码本身可以支持 HS 256 和 RS256 两种加解密的方法
+2、代码默认将验证 JWT的公钥写死为 RS256 的公钥 
+
+
+```
+function verify(token, secretOrPublicKey){
+    algorithm = token.getAlgHeader();
+    if(algorithm == 'RS256'){
+        // Use the provided key as an RSA public key
+    } else if (algorithm == 'HS256'){
+        // Use the provided key as an HMAC secret key
+    }
+}
+```
+
+```
+publicKey = <public-key-of-server>;
+token = request.getCookie('session');
+verify(token, publicKey);
+```
+
+这样一来黑客可以将 rs 256 公钥作为 hs256 加密的 secret  key 用来加密签名。">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://Passi0n1.github.io/post/jie-gou-shi-fu-zhi.html">
+<meta property="og:url" content="https://Passi0n1.github.io/post/vol.7%20JWT%20-suan-fa-hun-yao-gong-ji.html">
 <meta property="og:image" content="https://avatars.githubusercontent.com/u/181446367?v=4">
-<title>解构式赋值</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+<title>vol.7 JWT 算法混淆攻击</title>
+
 
 
 </head>
@@ -73,7 +115,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">解构式赋值</h1>
+<h1 class="postTitle">vol.7 JWT 算法混淆攻击</h1>
 <div class="title-right">
     <a href="https://Passi0n1.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -81,7 +123,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/Passi0n1/Passi0n1.github.io/issues/3" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Passi0n1/Passi0n1.github.io/issues/8" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -97,67 +139,30 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>解构式指的是将多维、多个的参数位同时批量（当然，也可以人为筛选掉一些参数不去进行复制）</p>
-<pre class="notranslate"><code class="notranslate">uint256 _number;
-bool _bool;
-uint256[3] memory _array;
-(_number, _bool, _array) = returnNamed();
-</code></pre>
-<p>在这个案例当中，先声明变量，然后将 <code class="notranslate">returnNamed</code> 运行的结果反馈赋值到这三个参数上面。</p>
-<p>我们随意把这个案例完善一下，看一下完整的代码</p>
-<div class="highlight highlight-source-solidity"><pre class="notranslate"><span class="pl-k">pragma solidity</span> <span class="pl-k">^</span><span class="pl-c1">0.8.0</span>;
-
-<span class="pl-k">contract</span> <span class="pl-en">DestructuringExample</span> {
-    <span class="pl-k">function<span class="pl-en"> returnNamed</span></span>() <span class="pl-k">public</span> <span class="pl-k">pure</span> <span class="pl-k">returns</span> (<span class="pl-c1">uint256</span>, <span class="pl-c1">bool</span>, <span class="pl-c1">uint256</span>[<span class="pl-c1">3</span>] <span class="pl-k">memory</span>) {
-        <span class="pl-k">return</span> (<span class="pl-c1">42</span>, <span class="pl-c1">true</span>, [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>]);
+<div class="markdown-body" id="postBody"><blockquote>
+<p>这个攻击方法很早就看到了，但是之前没时间去看具体的方式和原理，所以一直搁置了，刚好周末有空记录一下</p>
+</blockquote>
+<h2>导致漏洞的原因</h2>
+<p>Algorithm confusion vulnerabilities typically arise due to flawed implementation of JWT libraries. Although the actual verification process differs depending on the algorithm used, many libraries provide a single, algorithm-agnostic method for verifying signatures. These methods rely on the alg parameter in the token's header to determine the type of verification they should perform.</p>
+<p>漏洞的原因有两处，这两处需要同时存在才可以实现这个攻击:<br>
+1、代码本身可以支持 HS 256 和 RS256 两种加解密的方法<br>
+2、代码默认将验证 JWT的公钥写死为 RS256 的公钥</p>
+<pre class="notranslate"><code class="notranslate">function verify(token, secretOrPublicKey){
+    algorithm = token.getAlgHeader();
+    if(algorithm == "RS256"){
+        // Use the provided key as an RSA public key
+    } else if (algorithm == "HS256"){
+        // Use the provided key as an HMAC secret key
     }
-
-    <span class="pl-k">function<span class="pl-en"> testDestructuring</span></span>() <span class="pl-k">public</span> <span class="pl-k">pure</span> <span class="pl-k">returns</span> (<span class="pl-c1">uint256</span>, <span class="pl-c1">bool</span>, <span class="pl-c1">uint256</span>[<span class="pl-c1">3</span>] <span class="pl-k">memory</span>) {
-        <span class="pl-c1">uint256</span> _number;
-        <span class="pl-c1">bool</span> _bool;
-        <span class="pl-c1">uint256</span>[<span class="pl-c1">3</span>] <span class="pl-k">memory</span> _array;
-        (_number, _bool, _array) <span class="pl-k">=</span> <span class="pl-en">returnNamed</span>();
-        <span class="pl-k">return</span> (_number, _bool, _array);
-    }
-}</pre></div>
-<p>这个时候则比较清晰了。那么是不是解构式赋值一定要这样的同时多个参数都赋值呢？ 不是的<br>
-看这个例子则是可以只读取部分的值进行复制<br>
-<code class="notranslate">(, _bool2, ) = returnNamed();</code></p>
-<p>解构式赋值规则只能用来处理元组么还可以应用到别的参数类型上么？</p>
-<ol>
-<li>数组</li>
-</ol>
-<p>对于数组，解构式赋值可以用于提取数组中的元素。</p>
-<div class="highlight highlight-source-solidity"><pre class="notranslate"><span class="pl-c1">uint256</span>[<span class="pl-c1">3</span>] <span class="pl-k">memory </span>myArray <span class="pl-k">=</span> [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>];
-<span class="pl-c1">uint256</span> <span class="pl-v">a</span>, b, c;
-(a, b, c) <span class="pl-k">=</span> myArray;</pre></div>
-<ol start="2">
-<li>结构体（struct）</li>
-</ol>
-<p>对于结构体，解构式赋值可以用于提取结构体中的字段。</p>
-<div class="highlight highlight-source-solidity"><pre class="notranslate"><span class="pl-k">struct<span class="pl-en"> Person</span></span> {
-    <span class="pl-c1">address</span> addr;
-    <span class="pl-c1">uint256</span> age;
-    <span class="pl-c1">string</span> name;
 }
-
-Person <span class="pl-k">memory</span> p <span class="pl-k">=</span> <span class="pl-en">Person</span>(<span class="pl-c1">address</span>(<span class="pl-c1">0x123</span>), <span class="pl-c1">30</span>, <span class="pl-s">"<span class="pl-s">Alice</span>"</span>);
-<span class="pl-c1">address</span> addr;
-<span class="pl-c1">uint256</span> age;
-<span class="pl-c1">string</span> <span class="pl-k">memory</span> name;
-(addr, age, name) <span class="pl-k">=</span> p;</pre></div>
-<ol start="3">
-<li>映射（mapping）</li>
-</ol>
-<p>对于映射，解构式赋值不能直接应用于整个映射，但可以应用于映射中的单个元素。</p>
-<div class="highlight highlight-source-solidity"><pre class="notranslate"><span class="pl-k">mapping</span>(<span class="pl-c1">uint256</span> <span class="pl-k">=&gt;</span> <span class="pl-c1">string</span>) <span class="pl-k">public</span> myMapping;
-myMapping[<span class="pl-c1">1</span>] <span class="pl-k">=</span> <span class="pl-s">"<span class="pl-s">Alice</span>"</span>;
-myMapping[<span class="pl-c1">2</span>] <span class="pl-k">=</span> <span class="pl-s">"<span class="pl-s">Bob</span>"</span>;
-
-<span class="pl-c1">string</span> <span class="pl-k">memory</span> name1;
-<span class="pl-c1">string</span> <span class="pl-k">memory</span> name2;
-(name1, name2) <span class="pl-k">=</span> (myMapping[<span class="pl-c1">1</span>], my```ity[<span class="pl-c1">2</span>]);</pre></div>
-<p>这种算是一种通过取巧的方式实现复杂的赋值，第一次查阅会觉得不理解是正常的。</p></div>
+</code></pre>
+<pre class="notranslate"><code class="notranslate">publicKey = &lt;public-key-of-server&gt;;
+token = request.getCookie("session");
+verify(token, publicKey);
+</code></pre>
+<p>这样一来黑客可以将 rs 256 公钥作为 hs256 加密的 secret  key 用来加密签名。而后端代码页晕了吧唧的用 rs 256 公钥作为 secret key 去解密。</p>
+<p>当然，这里的算法不固定，HS 256 和 RS256 只是加密方式的代指。</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/cdbde5f9-0b84-457f-bf24-5e5bcbe8c06a"><img src="https://github.com/user-attachments/assets/cdbde5f9-0b84-457f-bf24-5e5bcbe8c06a" alt="image" style="max-width: 100%;"></a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

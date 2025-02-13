@@ -1,18 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Passi0n1's Blog</title><link>https://Passi0n1.github.io</link><description>世界是我们的游乐场</description><copyright>Passi0n1's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/181446367?v=4</url><title>avatar</title><link>https://Passi0n1.github.io</link></image><lastBuildDate>Thu, 13 Feb 2025 03:45:27 +0000</lastBuildDate><managingEditor>Passi0n1's Blog</managingEditor><ttl>60</ttl><webMaster>Passi0n1's Blog</webMaster><item><title>从 Jito 到 Roll-up</title><link>https://Passi0n1.github.io/post/cong-%20Jito%20-dao-%20Roll-up.html</link><description>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Passi0n1's Blog</title><link>https://Passi0n1.github.io</link><description>世界是我们的游乐场</description><copyright>Passi0n1's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/181446367?v=4</url><title>avatar</title><link>https://Passi0n1.github.io</link></image><lastBuildDate>Thu, 13 Feb 2025 16:10:49 +0000</lastBuildDate><managingEditor>Passi0n1's Blog</managingEditor><ttl>60</ttl><webMaster>Passi0n1's Blog</webMaster><item><title>vol.11 从 Jito 到 Roll-up</title><link>https://Passi0n1.github.io/post/vol.11%20-cong-%20Jito%20-dao-%20Roll-up.html</link><description>
 # **从 Jito 到 Roll-up**
 
 ## **引言**
 
-在区块链技术的持续发展过程中，不同的协议和机制不断涌现，以应对网络扩展性、性能、成本等方面的挑战。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/cong-%20Jito%20-dao-%20Roll-up.html</guid><pubDate>Mon, 20 Jan 2025 03:33:03 +0000</pubDate></item><item><title>Web Workers 和 Service Workers以及前端开发</title><link>https://Passi0n1.github.io/post/Web%20Workers%20-he-%20Service%20Workers-yi-ji-qian-duan-kai-fa.html</link><description>&#13;
+在区块链技术的持续发展过程中，不同的协议和机制不断涌现，以应对网络扩展性、性能、成本等方面的挑战。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/vol.11%20-cong-%20Jito%20-dao-%20Roll-up.html</guid><pubDate>Mon, 20 Jan 2025 03:33:03 +0000</pubDate></item><item><title>vol.10 Web Workers 和 Service Workers以及前端开发</title><link>https://Passi0n1.github.io/post/vol.10%20Web%20Workers%20-he-%20Service%20Workers-yi-ji-qian-duan-kai-fa.html</link><description>&#13;
 ## **Web Workers 和 Service Workers：概念、作用与发展历程**&#13;
 &#13;
 ### **1. Web Workers 的定义与作用**&#13;
 &#13;
-**Web Workers** 是浏览器提供的一种 JavaScript 多线程功能，旨在帮助开发者将计算密集型任务移出主线程，从而提升页面的响应速度和用户体验。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/Web%20Workers%20-he-%20Service%20Workers-yi-ji-qian-duan-kai-fa.html</guid><pubDate>Mon, 13 Jan 2025 09:14:09 +0000</pubDate></item><item><title>vol.9 ALLOW-FROM 与 CSP</title><link>https://Passi0n1.github.io/post/vol.9%20ALLOW-FROM%20-yu-%20CSP.html</link><description>### 1. **X-Frame-Options: ALLOW-FROM** 介绍及发展历程&#13;
+**Web Workers** 是浏览器提供的一种 JavaScript 多线程功能，旨在帮助开发者将计算密集型任务移出主线程，从而提升页面的响应速度和用户体验。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/vol.10%20Web%20Workers%20-he-%20Service%20Workers-yi-ji-qian-duan-kai-fa.html</guid><pubDate>Mon, 13 Jan 2025 09:14:09 +0000</pubDate></item><item><title>vol.9 ALLOW-FROM 与 CSP</title><link>https://Passi0n1.github.io/post/vol.9%20ALLOW-FROM%20-yu-%20CSP.html</link><description>### 1. **X-Frame-Options: ALLOW-FROM** 介绍及发展历程&#13;
 #### **X-Frame-Options** 是什么？&#13;
-`X-Frame-Options` 是一种 HTTP 响应头，用于防止网页被嵌入到 `iframe` 或其他嵌套框架中，主要用于防止点击劫持攻击（Clickjacking）。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/vol.9%20ALLOW-FROM%20-yu-%20CSP.html</guid><pubDate>Mon, 13 Jan 2025 09:06:42 +0000</pubDate></item><item><title>solidity中的引用和复制</title><link>https://Passi0n1.github.io/post/solidity-zhong-de-yin-yong-he-fu-zhi.html</link><description>## 1. 存储位置（Storage, Memory, Calldata）&#13;
-	•	storage：链上的持久化存储，数据是永久保存的。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/solidity-zhong-de-yin-yong-he-fu-zhi.html</guid><pubDate>Tue, 17 Dec 2024 08:52:14 +0000</pubDate></item><item><title>JWT 算法混淆攻击</title><link>https://Passi0n1.github.io/post/JWT%20-suan-fa-hun-yao-gong-ji.html</link><description>&gt; 这个攻击方法很早就看到了，但是之前没时间去看具体的方式和原理，所以一直搁置了，刚好周末有空记录一下&#13;
+`X-Frame-Options` 是一种 HTTP 响应头，用于防止网页被嵌入到 `iframe` 或其他嵌套框架中，主要用于防止点击劫持攻击（Clickjacking）。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/vol.9%20ALLOW-FROM%20-yu-%20CSP.html</guid><pubDate>Mon, 13 Jan 2025 09:06:42 +0000</pubDate></item><item><title>vol.8 solidity中的引用和复制</title><link>https://Passi0n1.github.io/post/vol.8%20solidity-zhong-de-yin-yong-he-fu-zhi.html</link><description>## 1. 存储位置（Storage, Memory, Calldata）&#13;
+	•	storage：链上的持久化存储，数据是永久保存的。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/vol.8%20solidity-zhong-de-yin-yong-he-fu-zhi.html</guid><pubDate>Tue, 17 Dec 2024 08:52:14 +0000</pubDate></item><item><title>vol.7 JWT 算法混淆攻击</title><link>https://Passi0n1.github.io/post/vol.7%20JWT%20-suan-fa-hun-yao-gong-ji.html</link><description>&gt; 这个攻击方法很早就看到了，但是之前没时间去看具体的方式和原理，所以一直搁置了，刚好周末有空记录一下&#13;
 &#13;
 ## 导致漏洞的原因&#13;
 &#13;
@@ -40,7 +40,7 @@ token = request.getCookie('session');&#13;
 verify(token, publicKey);&#13;
 ```&#13;
 &#13;
-这样一来黑客可以将 rs 256 公钥作为 hs256 加密的 secret  key 用来加密签名。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/JWT%20-suan-fa-hun-yao-gong-ji.html</guid><pubDate>Sat, 14 Dec 2024 16:02:50 +0000</pubDate></item><item><title>Challenge   274</title><link>https://Passi0n1.github.io/post/Challenge%20%20%20274.html</link><description>```&#13;
+这样一来黑客可以将 rs 256 公钥作为 hs256 加密的 secret  key 用来加密签名。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/vol.7%20JWT%20-suan-fa-hun-yao-gong-ji.html</guid><pubDate>Sat, 14 Dec 2024 16:02:50 +0000</pubDate></item><item><title>vol.6 Challenge   274</title><link>https://Passi0n1.github.io/post/vol.6%20Challenge%20%20%20274.html</link><description>```&#13;
 // @CalyptusCareers - Solidity Challenge&#13;
 contract DoesWrite {&#13;
     struct Foo {&#13;
@@ -65,13 +65,13 @@ contract DoesWrite {&#13;
 **解析：**&#13;
 &#13;
       myArray.push(Foo({bar: 1}));的含义指的向myArray数组中加一个foo结构体的数据，内容是把bar赋值为1，下一行同理&#13;
-        另外Foo storage foo = myArray[0];这里需要注意 storage 。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/Challenge%20%20%20274.html</guid><pubDate>Tue, 10 Dec 2024 09:39:24 +0000</pubDate></item><item><title>vol.5 scam tx 当中的无效流动性</title><link>https://Passi0n1.github.io/post/vol.5%20scam%20tx%20-dang-zhong-de-wu-xiao-liu-dong-xing.html</link><description>今天看到了一笔scam tx ，一时兴起想要研究下怎么把这种tx给过滤出来：&#13;
+        另外Foo storage foo = myArray[0];这里需要注意 storage 。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/vol.6%20Challenge%20%20%20274.html</guid><pubDate>Tue, 10 Dec 2024 09:39:24 +0000</pubDate></item><item><title>vol.5 scam tx 当中的无效流动性</title><link>https://Passi0n1.github.io/post/vol.5%20scam%20tx%20-dang-zhong-de-wu-xiao-liu-dong-xing.html</link><description>今天看到了一笔scam tx ，一时兴起想要研究下怎么把这种tx给过滤出来：&#13;
 &#13;
 https://etherscan.io/tx/0x975bcbd825c014c925c3513d0ccd2ba3b77c1d1dc7f5af7fb612c440a9cb3d2d&#13;
 &#13;
-首先分析其tx特征的话，可以看到是批量的发送。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/vol.5%20scam%20tx%20-dang-zhong-de-wu-xiao-liu-dong-xing.html</guid><pubDate>Mon, 25 Nov 2024 01:52:56 +0000</pubDate></item><item><title>合约中的event</title><link>https://Passi0n1.github.io/post/he-yue-zhong-de-event.html</link><description>**事件**&#13;
-enevt 是个被定义的事件，主要的功能的对外展示和记录作用，并不是真正的代码的执行。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/he-yue-zhong-de-event.html</guid><pubDate>Fri, 27 Sep 2024 12:07:27 +0000</pubDate></item><item><title>区块链中的存储类型</title><link>https://Passi0n1.github.io/post/qu-kuai-lian-zhong-de-cun-chu-lei-xing.html</link><description>## Storage&#13;
-storage 存储的是声明定义的数据。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/qu-kuai-lian-zhong-de-cun-chu-lei-xing.html</guid><pubDate>Thu, 26 Sep 2024 12:09:40 +0000</pubDate></item><item><title>vol.2 解构式赋值</title><link>https://Passi0n1.github.io/post/vol.2%20-jie-gou-shi-fu-zhi.html</link><description>解构式指的是将多维、多个的参数位同时批量（当然，也可以人为筛选掉一些参数不去进行复制）&#13;
+首先分析其tx特征的话，可以看到是批量的发送。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/vol.5%20scam%20tx%20-dang-zhong-de-wu-xiao-liu-dong-xing.html</guid><pubDate>Mon, 25 Nov 2024 01:52:56 +0000</pubDate></item><item><title>vol.4 合约中的event</title><link>https://Passi0n1.github.io/post/vol.4%20-he-yue-zhong-de-event.html</link><description>**事件**&#13;
+enevt 是个被定义的事件，主要的功能的对外展示和记录作用，并不是真正的代码的执行。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/vol.4%20-he-yue-zhong-de-event.html</guid><pubDate>Fri, 27 Sep 2024 12:07:27 +0000</pubDate></item><item><title>vol.3 区块链中的存储类型</title><link>https://Passi0n1.github.io/post/vol.3%20-qu-kuai-lian-zhong-de-cun-chu-lei-xing.html</link><description>## Storage&#13;
+storage 存储的是声明定义的数据。</description><guid isPermaLink="true">https://Passi0n1.github.io/post/vol.3%20-qu-kuai-lian-zhong-de-cun-chu-lei-xing.html</guid><pubDate>Thu, 26 Sep 2024 12:09:40 +0000</pubDate></item><item><title>vol.2 解构式赋值</title><link>https://Passi0n1.github.io/post/vol.2%20-jie-gou-shi-fu-zhi.html</link><description>解构式指的是将多维、多个的参数位同时批量（当然，也可以人为筛选掉一些参数不去进行复制）&#13;
 ```&#13;
 uint256 _number;&#13;
 bool _bool;&#13;

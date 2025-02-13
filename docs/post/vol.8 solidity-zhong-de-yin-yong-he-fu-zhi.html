@@ -10,18 +10,16 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="### 1. **X-Frame-Options: ALLOW-FROM** 介绍及发展历程
-#### **X-Frame-Options** 是什么？
-`X-Frame-Options` 是一种 HTTP 响应头，用于防止网页被嵌入到 `iframe` 或其他嵌套框架中，主要用于防止点击劫持攻击（Clickjacking）。">
-<meta property="og:title" content="ALLOW-FROM 与 CSP">
-<meta property="og:description" content="### 1. **X-Frame-Options: ALLOW-FROM** 介绍及发展历程
-#### **X-Frame-Options** 是什么？
-`X-Frame-Options` 是一种 HTTP 响应头，用于防止网页被嵌入到 `iframe` 或其他嵌套框架中，主要用于防止点击劫持攻击（Clickjacking）。">
+<meta name="description" content="## 1. 存储位置（Storage, Memory, Calldata）
+	•	storage：链上的持久化存储，数据是永久保存的。">
+<meta property="og:title" content="vol.8 solidity中的引用和复制">
+<meta property="og:description" content="## 1. 存储位置（Storage, Memory, Calldata）
+	•	storage：链上的持久化存储，数据是永久保存的。">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://Passi0n1.github.io/post/ALLOW-FROM%20-yu-%20CSP.html">
+<meta property="og:url" content="https://Passi0n1.github.io/post/vol.8%20solidity-zhong-de-yin-yong-he-fu-zhi.html">
 <meta property="og:image" content="https://avatars.githubusercontent.com/u/181446367?v=4">
-<title>ALLOW-FROM 与 CSP</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+<title>vol.8 solidity中的引用和复制</title>
+
 
 
 </head>
@@ -63,7 +61,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">ALLOW-FROM 与 CSP</h1>
+<h1 class="postTitle">vol.8 solidity中的引用和复制</h1>
 <div class="title-right">
     <a href="https://Passi0n1.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -71,7 +69,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/Passi0n1/Passi0n1.github.io/issues/10" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Passi0n1/Passi0n1.github.io/issues/9" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -87,93 +85,68 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h3>1. <strong>X-Frame-Options: ALLOW-FROM</strong> 介绍及发展历程</h3>
-<h4><strong>X-Frame-Options</strong> 是什么？</h4>
-<p><code class="notranslate">X-Frame-Options</code> 是一种 HTTP 响应头，用于防止网页被嵌入到 <code class="notranslate">iframe</code> 或其他嵌套框架中，主要用于防止点击劫持攻击（Clickjacking）。<br>
-<code class="notranslate">X-Frame-Options</code> 的值可以是以下三种：</p>
-<ul>
-<li><strong>DENY</strong>：禁止该页面在任何情况下被嵌入框架中。</li>
-<li><strong>SAMEORIGIN</strong>：允许该页面只在同一来源的页面中被嵌入。</li>
-<li><strong>ALLOW-FROM uri</strong>：允许该页面仅在指定来源的页面中被嵌入。</li>
-</ul>
-<h4><strong>ALLOW-FROM 的意义</strong></h4>
-<p><code class="notranslate">ALLOW-FROM uri</code> 表示页面可以嵌入到 <code class="notranslate">iframe</code> 中，但仅限于指定的来源（<code class="notranslate">uri</code>）。例如：</p>
-<div class="highlight highlight-source-httpspec"><pre class="notranslate"><span class="pl-s"><span class="pl-v">X-Frame-Options:</span> ALLOW-FROM https://example.com</span></pre></div>
-<p>表示页面只允许被 <code class="notranslate">https://example.com</code> 的页面嵌入。</p>
-<h4><strong>发展历程与现状</strong></h4>
-<ol>
-<li>
-<p><strong>最初的设计：</strong><br>
-<code class="notranslate">X-Frame-Options</code> 最早在 Internet Explorer 8 中引入，随后被其他浏览器支持，用来解决 <code class="notranslate">iframe</code> 嵌套引起的安全问题。</p>
-</li>
-<li>
-<p><strong>缺点：</strong></p>
-<ul>
-<li>不灵活：只能控制是否允许嵌套，无法更细粒度地控制嵌套的内容。</li>
-<li>浏览器支持有限：<code class="notranslate">ALLOW-FROM</code> 仅在部分旧版浏览器中支持，例如 Internet Explorer 9-11。</li>
-<li>标准化问题：<code class="notranslate">ALLOW-FROM</code> 从未被 W3C 标准接受。</li>
-</ul>
-</li>
-<li>
-<p><strong>现状：</strong></p>
-<ul>
-<li>在现代浏览器中，<code class="notranslate">ALLOW-FROM</code> 已被废弃，Chrome 和 Firefox 都不再支持它。</li>
-<li>替代方案：内容安全策略（CSP，Content Security Policy）中的 <code class="notranslate">frame-ancestors</code> 已成为更好的解决方案。</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3>2. <strong>CSP 和 child-src、frame-src、frame-ancestors 的关系</strong></h3>
-<h4><strong>CSP 是什么？</strong></h4>
-<p>CSP 是一种浏览器安全机制，通过设置 HTTP 响应头（<code class="notranslate">Content-Security-Policy</code>），帮助开发者控制哪些资源（如脚本、样式、图片等）可以加载，哪些页面可以嵌套等。</p>
-<h4><strong>frame-src、child-src 和 frame-ancestors 的区别</strong></h4>
-<ol>
-<li>
-<p><strong><code class="notranslate">frame-src</code>：</strong><br>
-控制哪些来源的资源可以加载到 <code class="notranslate">iframe</code> 中（即嵌套的内容）。</p>
-<div class="highlight highlight-source-httpspec"><pre class="notranslate"><span class="pl-s"><span class="pl-v">Content-Security-Policy:</span> frame-src https://example.com;</span></pre></div>
-<p>示例：只允许嵌套 <code class="notranslate">https://example.com</code> 提供的内容。</p>
-</li>
-<li>
-<p><strong><code class="notranslate">child-src</code>：</strong><br>
-用于定义哪些来源的子资源可以加载（包括 <code class="notranslate">iframe</code> 和 <code class="notranslate">worker</code>）。<code class="notranslate">child-src</code> 是较早的属性，但已被 <code class="notranslate">frame-src</code> 和 <code class="notranslate">worker-src</code> 更细化的控制所取代。</p>
-</li>
-<li>
-<p><strong><code class="notranslate">frame-ancestors</code>：</strong><br>
-控制哪些来源的页面可以嵌套当前页面（即该页面能否被他人加载到 <code class="notranslate">iframe</code> 中）。</p>
-<div class="highlight highlight-source-httpspec"><pre class="notranslate"><span class="pl-s"><span class="pl-v">Content-Security-Policy:</span> frame-ancestors 'self' https://example.com;</span></pre></div>
-<p>示例：允许当前页面仅被自身来源（<code class="notranslate">self</code>）和 <code class="notranslate">https://example.com</code> 加载。</p>
-</li>
-</ol>
-<h4><strong>包含关系</strong></h4>
-<ul>
-<li>
-<p><code class="notranslate">frame-ancestors</code> 与 <code class="notranslate">frame-src</code>/<code class="notranslate">child-src</code> 是互补的：</p>
-<ul>
-<li><code class="notranslate">frame-ancestors</code> 控制当前页面能否被嵌套。</li>
-<li><code class="notranslate">frame-src</code> 和 <code class="notranslate">child-src</code> 控制当前页面可以加载的嵌套内容。</li>
-</ul>
-</li>
-<li>
-<p><code class="notranslate">child-src</code> 是旧版的通用控制选项，<code class="notranslate">frame-src</code> 专门用于嵌套的内容加载，因此在现代规范中，<code class="notranslate">child-src</code> 的作用已被分解为更细粒度的控制。</p>
-</li>
-</ul>
-<hr>
-<h3>总结</h3>
-<ul>
-<li>
-<p><strong><code class="notranslate">X-Frame-Options: ALLOW-FROM</code></strong> 是一种老旧的机制，已被现代浏览器废弃，<code class="notranslate">CSP</code> 中的 <code class="notranslate">frame-ancestors</code> 是它的现代替代方案。</p>
-</li>
-<li>
-<p><strong>CSP 的不同指令</strong> 各有侧重：</p>
-<ul>
-<li><code class="notranslate">frame-ancestors</code> 控制页面是否能被嵌套。</li>
-<li><code class="notranslate">frame-src</code> 控制可以加载的嵌套内容。</li>
-<li><code class="notranslate">child-src</code> 是较旧的通用指令，但现在更多地被具体化为 <code class="notranslate">frame-src</code> 和 <code class="notranslate">worker-src</code>。</li>
-</ul>
-<p>如果延伸到实践的领域就是通过CSP下的<code class="notranslate">frame-ancestors</code>  <code class="notranslate">frame-src</code>可以快速的知道该网站是否可以通过iframe打XSS。</p>
-</li>
-</ul></div>
+<div class="markdown-body" id="postBody"><h2>1. 存储位置（Storage, Memory, Calldata）</h2>
+<pre class="notranslate"><code class="notranslate">•	storage：链上的持久化存储，数据是永久保存的。
+•	memory：临时存储，用于函数调用期间，数据不会持久化。
+•	calldata：函数外部调用时的只读数据，通常用于 external 函数中的参数。
+</code></pre>
+<h2>2. 赋值和引用规则</h2>
+<h3>情况 1：Storage 赋值给 Storage</h3>
+<p>当你将一个 storage 变量赋值给另一个 storage 变量时，是引用赋值：</p>
+<pre class="notranslate"><code class="notranslate">Foo storage foo1 = myArray[0]; // foo1 引用 myArray[0]
+Foo storage foo2 = foo1;       // foo2 和 foo1 都引用 myArray[0]
+foo2.bar = 42;                 // 修改 foo2 会影响 myArray[0] 的数据
+
+</code></pre>
+<p>总结：<br>
+•	storage 到 storage 是引用赋值。<br>
+•	两个变量会指向同一个存储位置，修改其中一个会影响另一个。</p>
+<h3>情况 2：Memory 赋值给 Memory</h3>
+<p>当将 memory 变量赋值给另一个 memory 变量时，是值的复制：</p>
+<pre class="notranslate"><code class="notranslate">Foo memory foo1 = Foo({bar: 1});
+Foo memory foo2 = foo1;    // 复制 foo1 的数据给 foo2
+foo2.bar = 42;            // 修改 foo2 不影响 foo1
+</code></pre>
+<p>总结：<br>
+•	memory 到 memory 是数据的复制。<br>
+•	两个变量是独立的，修改一个不会影响另一个。</p>
+<h3>情况 3：Storage 赋值给 Memory</h3>
+<p>当将 storage 数据赋值给 memory 变量时，是数据的复制：</p>
+<pre class="notranslate"><code class="notranslate">Foo storage foo1 = myArray[0];
+Foo memory foo2 = foo1;   // 复制 foo1 的数据到 foo2
+foo2.bar = 42;           // 修改 foo2 不影响 myArray[0]
+</code></pre>
+<p>总结：<br>
+•	storage 到 memory 是值的复制。<br>
+•	修改 memory 变量不会影响 storage 中的数据。</p>
+<h3>情况 4：Memory 赋值给 Storage</h3>
+<p>将 memory 数据赋值给 storage 时，是数据的复制：</p>
+<pre class="notranslate"><code class="notranslate">
+Foo memory foo1 = Foo({bar: 1});
+myArray[0] = foo1;   // 复制 foo1 的数据到 myArray[0]
+foo1.bar = 42;       // 修改 foo1 不影响 myArray[0]
+</code></pre>
+<p>总结：<br>
+•	memory 到 storage 是数据的复制。<br>
+•	修改 memory 变量不会影响 storage 中的数据。</p>
+<h3>情况 5：Calldata 赋值给 Memory 或 Storage</h3>
+<pre class="notranslate"><code class="notranslate">•	Calldata 到 Memory：数据复制。
+•	Calldata 到 Storage：数据复制。
+</code></pre>
+<p>例如：</p>
+<pre class="notranslate"><code class="notranslate">function setFoo(Foo calldata fooInput) external {
+    Foo memory fooTemp = fooInput;  // 数据复制
+    myArray[0] = fooInput;          // 数据复制到 storage
+}
+
+</code></pre>
+<h2>3. 总结图表</h2>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/67869a45-baa5-4861-b791-1cb7c49b6ced"><img width="721" alt="image" src="https://github.com/user-attachments/assets/67869a45-baa5-4861-b791-1cb7c49b6ced" style="max-width: 100%;"></a></p>
+<h2>总结</h2>
+<pre class="notranslate"><code class="notranslate">•	storage 到 storage 是引用赋值。
+•	其他情况下（memory、calldata、storage 之间）都是 数据的复制。
+</code></pre>
+<p>当然，还要考虑局部变量和全局变量，以及显性赋值情况。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

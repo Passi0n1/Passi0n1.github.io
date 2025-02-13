@@ -10,70 +10,16 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="> 这个攻击方法很早就看到了，但是之前没时间去看具体的方式和原理，所以一直搁置了，刚好周末有空记录一下
-
-## 导致漏洞的原因
-
-Algorithm confusion vulnerabilities typically arise due to flawed implementation of JWT libraries. Although the actual verification process differs depending on the algorithm used, many libraries provide a single, algorithm-agnostic method for verifying signatures. These methods rely on the alg parameter in the token's header to determine the type of verification they should perform.
-
-漏洞的原因有两处，这两处需要同时存在才可以实现这个攻击:
-1、代码本身可以支持 HS 256 和 RS256 两种加解密的方法
-2、代码默认将验证 JWT的公钥写死为 RS256 的公钥 
-
-
-```
-function verify(token, secretOrPublicKey){
-    algorithm = token.getAlgHeader();
-    if(algorithm == 'RS256'){
-        // Use the provided key as an RSA public key
-    } else if (algorithm == 'HS256'){
-        // Use the provided key as an HMAC secret key
-    }
-}
-```
-
-```
-publicKey = <public-key-of-server>;
-token = request.getCookie('session');
-verify(token, publicKey);
-```
-
-这样一来黑客可以将 rs 256 公钥作为 hs256 加密的 secret  key 用来加密签名。">
-<meta property="og:title" content="JWT 算法混淆攻击">
-<meta property="og:description" content="> 这个攻击方法很早就看到了，但是之前没时间去看具体的方式和原理，所以一直搁置了，刚好周末有空记录一下
-
-## 导致漏洞的原因
-
-Algorithm confusion vulnerabilities typically arise due to flawed implementation of JWT libraries. Although the actual verification process differs depending on the algorithm used, many libraries provide a single, algorithm-agnostic method for verifying signatures. These methods rely on the alg parameter in the token's header to determine the type of verification they should perform.
-
-漏洞的原因有两处，这两处需要同时存在才可以实现这个攻击:
-1、代码本身可以支持 HS 256 和 RS256 两种加解密的方法
-2、代码默认将验证 JWT的公钥写死为 RS256 的公钥 
-
-
-```
-function verify(token, secretOrPublicKey){
-    algorithm = token.getAlgHeader();
-    if(algorithm == 'RS256'){
-        // Use the provided key as an RSA public key
-    } else if (algorithm == 'HS256'){
-        // Use the provided key as an HMAC secret key
-    }
-}
-```
-
-```
-publicKey = <public-key-of-server>;
-token = request.getCookie('session');
-verify(token, publicKey);
-```
-
-这样一来黑客可以将 rs 256 公钥作为 hs256 加密的 secret  key 用来加密签名。">
+<meta name="description" content="## Storage
+storage 存储的是声明定义的数据。">
+<meta property="og:title" content="vol.3 区块链中的存储类型">
+<meta property="og:description" content="## Storage
+storage 存储的是声明定义的数据。">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://Passi0n1.github.io/post/JWT%20-suan-fa-hun-yao-gong-ji.html">
+<meta property="og:url" content="https://Passi0n1.github.io/post/vol.3%20-qu-kuai-lian-zhong-de-cun-chu-lei-xing.html">
 <meta property="og:image" content="https://avatars.githubusercontent.com/u/181446367?v=4">
-<title>JWT 算法混淆攻击</title>
-
+<title>vol.3 区块链中的存储类型</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -115,7 +61,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">JWT 算法混淆攻击</h1>
+<h1 class="postTitle">vol.3 区块链中的存储类型</h1>
 <div class="title-right">
     <a href="https://Passi0n1.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -123,7 +69,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/Passi0n1/Passi0n1.github.io/issues/8" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Passi0n1/Passi0n1.github.io/issues/4" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -139,30 +85,135 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><blockquote>
-<p>这个攻击方法很早就看到了，但是之前没时间去看具体的方式和原理，所以一直搁置了，刚好周末有空记录一下</p>
-</blockquote>
-<h2>导致漏洞的原因</h2>
-<p>Algorithm confusion vulnerabilities typically arise due to flawed implementation of JWT libraries. Although the actual verification process differs depending on the algorithm used, many libraries provide a single, algorithm-agnostic method for verifying signatures. These methods rely on the alg parameter in the token's header to determine the type of verification they should perform.</p>
-<p>漏洞的原因有两处，这两处需要同时存在才可以实现这个攻击:<br>
-1、代码本身可以支持 HS 256 和 RS256 两种加解密的方法<br>
-2、代码默认将验证 JWT的公钥写死为 RS256 的公钥</p>
-<pre class="notranslate"><code class="notranslate">function verify(token, secretOrPublicKey){
-    algorithm = token.getAlgHeader();
-    if(algorithm == "RS256"){
-        // Use the provided key as an RSA public key
-    } else if (algorithm == "HS256"){
-        // Use the provided key as an HMAC secret key
+<div class="markdown-body" id="postBody"><h2>Storage</h2>
+<p>storage 存储的是声明定义的数据。</p>
+<p>slot 是存储在 storage 中的，一个 slot 可以存储 256 位（32 字节）的大小。<br>
+storage 没有上限，但是 gas 会很高。<br>
+<a href="https://blog.csdn.net/rfrder/article/details/115706983" rel="nofollow">Solidity 中 Storage</a></p>
+<h2>Memory</h2>
+<p>memory 存储的是内存中的数据。也就是过程中的数据。</p>
+<p>看一个例子：<br>
+在这个例子中间的信息，过程性的信息、局部变量就是存储在 Memory</p>
+<div class="highlight highlight-source-solidity"><pre class="notranslate"><span class="pl-k">pragma solidity</span> <span class="pl-k">^</span><span class="pl-c1">0.5.17</span>;
+
+<span class="pl-k">contract</span> <span class="pl-en">SimpleContract</span> {
+    <span class="pl-c1">uint256</span> <span class="pl-k">public</span> storedData; <span class="pl-c">// Storage</span>
+
+    <span class="pl-k">function<span class="pl-en"> set</span></span>(<span class="pl-c1">uint256</span> <span class="pl-v">x</span>) <span class="pl-k">public</span> {
+        <span class="pl-c1">uint256</span> tempData <span class="pl-k">=</span> x <span class="pl-k">+</span> <span class="pl-c1">10</span>; <span class="pl-c">// Memory</span>
+        storedData <span class="pl-k">=</span> tempData; <span class="pl-c">// Storage</span>
     }
 }
-</code></pre>
-<pre class="notranslate"><code class="notranslate">publicKey = &lt;public-key-of-server&gt;;
-token = request.getCookie("session");
-verify(token, publicKey);
-</code></pre>
-<p>这样一来黑客可以将 rs 256 公钥作为 hs256 加密的 secret  key 用来加密签名。而后端代码页晕了吧唧的用 rs 256 公钥作为 secret key 去解密。</p>
-<p>当然，这里的算法不固定，HS 256 和 RS256 只是加密方式的代指。</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/cdbde5f9-0b84-457f-bf24-5e5bcbe8c06a"><img src="https://github.com/user-attachments/assets/cdbde5f9-0b84-457f-bf24-5e5bcbe8c06a" alt="image" style="max-width: 100%;"></a></p></div>
+</pre></div>
+<p>在函数中定义的局部变量是存储在哪里的呢？<br>
+函数中也是可以定义变量的，但是这个变量是存储在 memory 中的，而不是 storage。</p>
+<h2>Stack</h2>
+<p>stack 是伴随着 memory 而产生和结束的，但是两者并非是一方包括一方。而是 memory 属于临时数据的存储，而 stack 而伴生在其左右，用来跟进函数的执行。</p>
+<p>也就是，memory 之于 stack，就像 storage 之于 memory。</p>
+<p>stack 这种后进先出的结构就是会从 memory 中拿数据，进而跟进函数的执行过程。</p>
+<div class="highlight highlight-source-solidity"><pre class="notranslate"><span class="pl-k">pragma solidity</span> <span class="pl-k">^</span><span class="pl-c1">0.5.17</span>;
+
+<span class="pl-k">contract</span> <span class="pl-en">StackExample</span> {
+    <span class="pl-k">function<span class="pl-en"> functionA</span></span>(<span class="pl-c1">uint256</span> <span class="pl-v">x</span>) <span class="pl-k">public</span> <span class="pl-k">pure</span> <span class="pl-k">returns</span> (<span class="pl-c1">uint256</span>) {
+        <span class="pl-c1">uint256</span> y <span class="pl-k">=</span> x <span class="pl-k">+</span> <span class="pl-c1">5</span>;
+        <span class="pl-c1">uint256</span> result <span class="pl-k">=</span> <span class="pl-en">functionB</span>(y);
+        <span class="pl-k">return</span> result;
+    }
+
+    <span class="pl-k">function<span class="pl-en"> functionB</span></span>(<span class="pl-c1">uint256</span> <span class="pl-v">a</span>) <span class="pl-k">internal</span> <span class="pl-k">pure</span> <span class="pl-k">returns</span> (<span class="pl-c1">uint256</span>) {
+        <span class="pl-c1">uint256</span> b <span class="pl-k">=</span> a <span class="pl-k">*</span> <span class="pl-c1">2</span>;
+        <span class="pl-k">return</span> b;
+    }
+}
+</pre></div>
+<p>在这个例子中，当 <code class="notranslate">functionA</code> 被调用时，参数 <code class="notranslate">x</code> 和局部变量 <code class="notranslate">y</code> 都会被置于 Stack 中。然后，当 <code class="notranslate">functionA</code> 调用 <code class="notranslate">functionB</code> 时，<code class="notranslate">functionB</code> 的参数 <code class="notranslate">a</code> 以及返回地址（指向 <code class="notranslate">functionA</code> 继续执行的位置）也会被压入 Stack。</p>
+<p>当 <code class="notranslate">functionB</code> 执行完成，它的返回结果 <code class="notranslate">b</code> 以及返回地址会从 Stack 中弹出，Stack 的状态就回到了我们首次调用 <code class="notranslate">functionA</code> 时的状态，这就使得 <code class="notranslate">functionA</code> 可以接着执行。</p>
+<p>现在，我们回到 <code class="notranslate">functionA</code>，执行完余下的部分（从 <code class="notranslate">functionB</code> 返回并将结果赋值给 <code class="notranslate">result</code>）。一旦 <code class="notranslate">functionA</code> 完成，它的参数和局部变量也会从 Stack 上移除。</p>
+<p>这是 Stack 在函数调用中发挥作用的例子。Stack 提供了一种灵活、高效的方式来跟踪函数的状态，包括局部变量、参数以及函数调用的嵌套情况。</p>
+<h2>calldata</h2>
+<p>Calldata 相比于 storage 和 Memory 这种固定或者临时存储数据的位置而言，calldata 更像是一种临时工具，只用来在不同的参数当中传递参数。</p>
+<h2>四者之间的比较</h2>
+<p>Storage（存储）<br>
+1	定义：Storage 是 Solidity 中用于永久存储数据的地方。它对应于以太坊区块链上的状态变量。<br>
+2	特点：<br>
+•	存储在区块链上，每次合约调用都会持久化保存。<br>
+•	访问速度较慢，成本较高。<br>
+•	主要用于存储合约的状态和重要数据。</p>
+<p>Memory（内存）<br>
+1	定义：Memory 是 Solidity 中用于临时存储数据的地方。它在函数调用期间存在，并在函数执行完毕后销毁。<br>
+2	特点：<br>
+•	存储在内存中，访问速度快，成本较低。<br>
+•	主要用于处理函数参数和局部变量。<br>
+•	数据在函数执行完毕后会被清除。</p>
+<p>Calldata（调用数据）<br>
+1	定义：Calldata 是 Solidity 中用于传递函数参数的特殊区域。它是一个不可变的字节数组，包含了函数调用的输入数据。<br>
+2	特点：<br>
+•	只读，不可修改。<br>
+•	主要用于外部函数的输入参数。<br>
+•	访问速度快，成本较低。<br>
+•	适用于处理大量数据，因为它不会占用额外的内存空间。<br>
+Stack（栈）<br>
+1	定义：Stack 是 Solidity 虚拟机（EVM）中用于执行操作的内部数据结构。它用于临时存储运算过程中的中间结果。<br>
+2	特点：<br>
+•	存储在 EVM 的栈中，访问速度快。<br>
+•	主要用于执行算术运算、逻辑运算和函数调用等操作。<br>
+•	栈的大小有限，通常为 1024 个元素。</p>
+<p>示例代码<br>
+总结<br>
+•	Storage：用于永久存储合约状态。<br>
+•	Memory：用于临时存储函数参数和局部变量。<br>
+•	Calldata：用于传递外部函数的输入参数，只读且高效。<br>
+•	Stack：EVM 内部用于执行操作的数据结构。</p>
+<p>这里通过一个例子展示这些存储类型的具体应用</p>
+<div class="highlight highlight-source-solidity"><pre class="notranslate"><span class="pl-k">pragma solidity</span> <span class="pl-k">^</span><span class="pl-c1">0.8.0</span>;
+
+<span class="pl-k">contract</span> <span class="pl-en">StorageExample</span> {
+    <span class="pl-c1">uint256</span> <span class="pl-k">public</span> storedData; <span class="pl-c">// 存储在storage中</span>
+
+    <span class="pl-k">function<span class="pl-en"> setStorageData</span></span>(<span class="pl-c1">uint256</span> <span class="pl-v">_data</span>) <span class="pl-k">public</span> {
+        storedData <span class="pl-k">=</span> _data; <span class="pl-c">// 修改storage中的数据</span>
+    }
+}
+
+<span class="pl-k">contract</span> <span class="pl-en">MemoryExample</span> {
+    <span class="pl-k">function<span class="pl-en"> useMemory</span></span>(<span class="pl-c1">uint256</span>[] <span class="pl-k">memory</span> <span class="pl-v">_array</span>) <span class="pl-k">public</span> <span class="pl-k">pure</span> <span class="pl-k">returns</span> (<span class="pl-c1">uint256</span>) {
+        <span class="pl-c1">uint256</span> sum <span class="pl-k">=</span> <span class="pl-c1">0</span>;
+        <span class="pl-k">for</span> (<span class="pl-c1">uint256</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> _array.<span class="pl-mi">length</span>; i<span class="pl-k">++</span>) {
+            sum <span class="pl-k">+=</span> _array[i]; <span class="pl-c">// 使用memory中的数组</span>
+        }
+        <span class="pl-k">return</span> sum;
+    }
+}
+
+<span class="pl-k">contract</span> <span class="pl-en">CalldataExample</span> {
+    <span class="pl-k">function<span class="pl-en"> processCalldata</span></span>(<span class="pl-c1">uint256</span>[] <span class="pl-k">calldata</span> <span class="pl-v">_array</span>) <span class="pl-k">external</span> <span class="pl-k">pure</span> <span class="pl-k">returns</span> (<span class="pl-c1">uint256</span>) {
+        <span class="pl-c1">uint256</span> sum <span class="pl-k">=</span> <span class="pl-c1">0</span>;
+        <span class="pl-k">for</span> (<span class="pl-c1">uint256</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> _array.<span class="pl-mi">length</span>; i<span class="pl-k">++</span>) {
+            sum <span class="pl-k">+=</span> _array[i]; <span class="pl-c">// 使用calldata中的数组</span>
+        }
+        <span class="pl-k">return</span> sum;
+    }
+}</pre></div>
+<p>总结一下：</p>
+<ul>
+<li><strong>默认参数类型</strong>：未声明类型的参数默认是 <code class="notranslate">memory</code>。</li>
+<li><strong>Storage 变量</strong>：需要显式声明。</li>
+<li><strong>External 函数参数</strong>：推荐使用<code class="notranslate">calldata</code>，尤其是对于复杂类型，但标量类型可以使用<code class="notranslate">memory</code>或<code class="notranslate">calldata</code>。</li>
+</ul>
+<p>补充：<br>
+复杂类型（Complex Types）<br>
+复杂类型通常指的是包含多个值或者具有内部结构的数据类型。在Solidity（一种智能合约编程语言）中，复杂类型包括但不限于：</p>
+<p>结构体（Structs）<br>
+数组（Arrays）<br>
+映射（Mappings）<br>
+枚举（Enums）<br>
+这些类型通常占用更多的内存空间，并且在函数调用时可能需要更多的处理来传递它们的状态。</p>
+<p>标量类型（Scalar Types）<br>
+标量类型指的是单一的值，它们是最基本的数据类型。在Solidity中，标量类型包括：</p>
+<p>整数（如 int, uint）<br>
+布尔值（bool）<br>
+地址（address）<br>
+固定大小字节数组（如 bytes1, bytes32）</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
